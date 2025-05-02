@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Media {
     private String name;
-    private Long size;
+    private Double size;
 }

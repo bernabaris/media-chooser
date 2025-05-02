@@ -4,6 +4,7 @@ import com.github.bernabaris.mediachooser.model.Category;
 import com.github.bernabaris.mediachooser.model.MainCategory;
 import com.github.bernabaris.mediachooser.model.Media;
 import com.hierynomus.msfscc.FileAttributes;
+import com.hierynomus.msfscc.fileinformation.FileIdBothDirectoryInformation;
 import com.hierynomus.smbj.SMBClient;
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import com.hierynomus.smbj.connection.Connection;
@@ -87,16 +88,26 @@ public class MediaController {
 
     private List<Media> getMediaListInCategory(DiskShare share, String parentFolderName) {
         List<Media> mediaList = new ArrayList<>();
+
         share.list(parentFolderName).stream()
                 .filter(file -> (file.getFileAttributes() & FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue()) != 0)
                 .filter(file -> !file.getFileName().equals(".") && !file.getFileName().equals(".."))
-                .forEach(fileIdBothDirectoryInformation -> {
+                .forEach(directory -> {
+                    String subFolderPath = parentFolderName + "\\" + directory.getFileName();
+                    long totalBytes = share.list(subFolderPath).stream()
+                            .filter(file -> (file.getFileAttributes() & FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue()) == 0)
+                            .mapToLong(FileIdBothDirectoryInformation::getEndOfFile)
+                            .sum();
+                    double sizeInMB = totalBytes / (1024.0 * 1024.0);
+
                     Media media = new Media();
-                    media.setName(fileIdBothDirectoryInformation.getFileName());
-                    media.setSize(fileIdBothDirectoryInformation.getEndOfFile());
+                    media.setName(directory.getFileName());
+                    media.setSize(sizeInMB);
                     mediaList.add(media);
                 });
+
         return mediaList;
     }
+
 
 }
