@@ -1,0 +1,50 @@
+{
+  "Movies": [
+    {
+      "name": "Hollywood",
+      "mediaList": [
+        {
+          "name": "Prestige",
+          "size": "8096"
+        },
+        {
+          "name": "Interstellar",
+          "size": "4094"
+        }
+      ]
+    },
+    {
+      "name": "Animation",
+      "mediaList": [
+        {
+          "name": "Wall-E",
+          "size": "2048"
+        }
+      ]
+    }
+  ],
+  "TV Shows": [
+    {
+      "name": "Documentary",
+      "mediaList": [
+        {
+          "name": "Blue Planet",
+          "size": "4096"
+        }
+      ]
+    },
+    {
+      "name": "TV Series",
+      "mediaList": [
+        {
+          "name": "Ted Lasso",
+          "size": "4096"
+        },
+        {
+          "name": "Kurtlar Vadisi",
+          "size": "10001"
+        }
+      ]
+    }
+  ]
+}
